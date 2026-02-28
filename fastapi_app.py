@@ -41,6 +41,10 @@ app = FastAPI(
 def health():
     return {"status": "ok"}
 
+@app.get("/wealth", summary="Health check")
+def health():
+    return {"status": "cool"}
+
 
 @app.post("/chat", response_model=ChatResponse, summary="Chat with the RAG engine")
 def chat(req: ChatRequest):
