@@ -39,6 +39,7 @@ jobs:
             docker rm my-genai-api || true
             docker run -d \
               --name my-genai-api \
-              -p 80:8080 \
+              -p 80:8000 \
+              --restart always \
               --env-file .env \
               ${{ secrets.DOCKER_USERNAME }}/my-genai-api:latest
