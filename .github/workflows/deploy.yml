@@ -40,4 +40,5 @@ jobs:
             docker run -d \
               --name my-genai-api \
               -p 80:8080 \
+              --env-file .env \
               ${{ secrets.DOCKER_USERNAME }}/my-genai-api:latest
