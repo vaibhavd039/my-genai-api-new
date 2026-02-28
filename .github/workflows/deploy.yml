@@ -26,3 +26,18 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/my-genai-api:latest
             ${{ secrets.DOCKER_USERNAME }}/my-genai-api:${{ steps.vars.outputs.sha_short }}
+      # 4. Deploy to VM via SSH
+      - name: Deploy to VM
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VM_IP }}
+          username: ${{ secrets.VM_USERNAME }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          script: |
+            docker pull ${{ secrets.DOCKER_USERNAME }}/my-genai-api:latest
+            docker stop my-genai-api || true
+            docker rm my-genai-api || true
+            docker run -d \
+              --name my-genai-api \
+              -p 80:8080 \
+              ${{ secrets.DOCKER_USERNAME }}/my-genai-api:latest
